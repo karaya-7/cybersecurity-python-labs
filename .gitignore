@@ -216,3 +216,43 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Lab data (чутливі дані)
+labs/lab01/data/users.csv
+labs/lab01/data/log.json
+
+# Python bytecode cache
+__pycache__/
+*.pyc
+
+# Ruff cache
+.ruff_cache/
+
+# Lab data (чутливі дані)
+labs/lab01/data/users.csv
+labs/lab01/data/log.json
+EOF\
+
+cat >> .gitignore << 'EOF'
+
+# Python bytecode cache
+__pycache__/
+*.pyc
+
+# Ruff cache
+.ruff_cache/
+
+# Lab data (чутливі дані)
+labs/lab01/data/users.csv
+labs/lab01/data/log.json
+
+# Python bytecode cache
+__pycache__/
+*.pyc
+
+# Ruff cache
+.ruff_cache/
+
+# Lab data (чутливі дані)
+labs/lab01/data/users.csv
+labs/lab01/data/log.json
