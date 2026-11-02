@@ -14,7 +14,6 @@ from shared.student import (  # noqa: E402
     VARIANT_NUMBER,
 )
 
-# --- Вхідні дані для варіанту 10 ---
 USERS = {
     "iot_specialist": {
         "role": "iot_security",
@@ -84,17 +83,15 @@ def check_access(username: str, resource_level: int) -> tuple[bool, str]:
     Повертає (True, "") якщо доступ дозволено,
     або (False, "причина") якщо відмовлено.
     """
-    # 1. Користувача немає в системі
+
     if username not in USERS:
         return False, "User not found"
 
-    # 2. Заблокований
     if username in BLOCKED_USERS:
         return False, "User is blocked"
 
     user = USERS[username]
 
-    # 3. Неактивний акаунт
     if not user["active"]:
         return False, "Account inactive"
 

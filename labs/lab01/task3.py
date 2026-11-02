@@ -19,7 +19,6 @@ from shared.student import (  # noqa: E402
     VARIANT_NUMBER,
 )
 
-# --- Параметри варіанту 10 ---
 HASH_ALGORITHM = "sha3_384"
 MIN_PASSWORD_LENGTH = 10
 
@@ -28,16 +27,15 @@ DATA_DIR = BASE_DIR / "data"
 USERS_CSV = DATA_DIR / "users.csv"
 LOG_JSON = DATA_DIR / "log.json"
 
-# Персональна сіль: 5 символів, доповнена нулями зліва
-PERSONAL_SALT = str(VARIANT_NUMBER).zfill(5)  # "00010"
+PERSONAL_SALT = str(VARIANT_NUMBER).zfill(5)
 
 
-# --- Власні винятки ---
+# винятки
 class ValidationError(Exception):
     """Помилка валідації пароля."""
 
 
-# --- Хешування ---
+# хешування
 def generate_hash(password: str, salt: str = "00000") -> str:
     """Повертає hex-хеш від конкатенації пароля та солі.
 
@@ -58,7 +56,6 @@ def generate_hash(password: str, salt: str = "00000") -> str:
     return hasher.hexdigest()
 
 
-# --- Декоратор логування ---
 def log_event(func):
     """Записує кожну спробу входу у log.json."""
 
@@ -108,7 +105,6 @@ def _write_log(username: str, result: str, args: tuple, kwargs: dict) -> None:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-# --- Реєстрація користувачів ---
 USERS_TO_REGISTER = (
     ("iot_admin", "IotAdm1n@2024"),
     ("mobile_sec", "MobSec#2024A"),
@@ -209,7 +205,6 @@ def login(username: str, password: str) -> bool:
     return user_map[username] == computed
 
 
-# --- Головна функція ---
 def main() -> None:
     """Демонстрація роботи завдання 3."""
     print("=" * 80)
@@ -224,14 +219,12 @@ def main() -> None:
     print(f"Персональна сіль: {PERSONAL_SALT}")
     print("=" * 80)
 
-    # 1. Створення бази користувачів
     try:
         create_users(USERS_TO_REGISTER)
     except (PermissionError, OSError) as exc:
         print(f"[!] Не вдалося створити базу: {exc}")
         return
 
-    # 2. Читання та виведення бази
     try:
         users_db = read_users_db()
     except FileNotFoundError as exc:
@@ -239,7 +232,6 @@ def main() -> None:
         return
     print_users_table(users_db)
 
-    # 3. Автентифікація (успішні та неуспішні спроби)
     print("\n--- Перевірка автентифікації ---")
     attempts = [
         ("iot_admin", "IotAdm1n@2024"),

@@ -7,7 +7,6 @@ import random
 import sys
 from pathlib import Path
 
-# Додаємо корінь репозиторію до sys.path
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from shared.student import (  # noqa: E402
@@ -16,7 +15,6 @@ from shared.student import (  # noqa: E402
     VARIANT_NUMBER,
 )
 
-# --- Вхідні дані для варіанту 10 ---
 PASSWORDS = [
     "S0cial@Engineer",
     "basic",
@@ -31,7 +29,7 @@ PASSWORDS = [
 ]
 
 CRITERIA = {
-    "min_length": 11,
+    "min_length": 7,
     "require_digits": True,
     "require_upper": True,
     "require_special": True,
@@ -77,7 +75,7 @@ def evaluate_password(password: str, all_passwords: list[str]) -> str:
     """
     min_length = CRITERIA["min_length"]
 
-    # 1. Заборонений
+    # Заборонений
     if password.lower() in FORBIDDEN_PASSWORDS or len(password) < min_length:
         return "Заборонений"
 
@@ -90,25 +88,23 @@ def evaluate_password(password: str, all_passwords: list[str]) -> str:
 
     passed = sum(checks.values())
 
-    # 2. Слабкий — виконує хоча б один, але не всі критерії
+    # Слабкий
     if passed <= 2:
         return "Слабкий"
 
-    # 3. Середній — деякі, але не всі критерії
+    # Середній
     if passed < 4:
         return "Середній"
 
-    # Далі passed == 4 (усі критерії виконано)
-    # 4. Сильний — всі критерії, довжина < min_length + 4
+    # Сильний
     if len(password) < min_length + 4:
         return "Сильний"
 
-    # 5. Дуже сильний — всі критерії, довжина >= min_length + 4,
-    #    і пароль унікальний у всьому списку
+    # Дуже сильний
     if all_passwords.count(password) == 1:
         return "Дуже сильний"
 
-    # якщо довгий, але дублюється — знижуємо до "Сильний"
+    # якщо дублюється то знижуємо до сильний
     return "Сильний"
 
 
@@ -122,7 +118,6 @@ def run_task1() -> None:
     print("Завдання 1: Аналізатор надійності паролів")
     print("=" * 70)
 
-    # Дублюємо 3 випадкові паролі (імітація повторного використання)
     random.seed(VARIANT_NUMBER)
     indices = random.sample(range(len(PASSWORDS)), 3)
     duplicated = [PASSWORDS[i] for i in indices]
